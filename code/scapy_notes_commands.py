@@ -71,3 +71,27 @@ ans = sr1(IP(dst="8.8.8.8")/UDP(sport=RandShort(), dport=53)/DNS(rd=1,qd=DNSQR(q
 ans[0]
 %save scapy_notes_commands ~0/
 get_ipython().run_line_magic('save', 'scapy_notes_commands ~0/')
+
+## Notes and command of scapy
+## The follwoing line writes the captured packet into a file 
+for pkt in foo:
+...:     wrpcap("foo_legit_lookup.pcap", pkt, append=True)
+
+#! /usr/bin/env python3
+from scapy.all import *
+dns_req = IP(dst='192.168.56.30')/UDP(dport=53)/DNS(rd=1, qd=DNSQR(qname='jaberxyz.com'))
+answer = sr1(dns_req, verbose=1)
+
+print(answer[DNS].summary())
+
+
+
+from scapy.all import *
+print(sr1(IP(dst="192.168.56.30")/ICMP()).summary())
+def arp_display(pkt):
+    if pkt[ARP].op == 1:  # who-has (request)
+        return f"Request: {pkt[ARP].psrc} is asking about {pkt[ARP].pdst}"
+    if pkt[ARP].op == 2:  # is-at (response)
+        return f"*Response: {pkt[ARP].hwsrc} has address {pkt[ARP].psrc}"
+
+sniff(prn=arp_display, filter="arp", store=0, count=10)
