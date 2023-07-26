@@ -1,0 +1,448 @@
+5886.	[security]	Fix a crash in DNS-over-HTTPS (DoH) code caused by
+			premature TLS stream socket object deletion.
+			(CVE-2022-1183) [GL #3216]
+--
+5820.	[security]	An assertion could occur in resume_dslookup() if the
+			fetch had been shut down earlier. (CVE-2022-0667)
+			[GL #3129]
+--
+5819.	[security]	Lookups involving a DNAME could trigger an INSIST when
+			"synth-from-dnssec" was enabled. (CVE-2022-0635)
+			[GL #3158]
+--
+5818.	[security]	A synchronous call to closehandle_cb() caused
+			isc__nm_process_sock_buffer() to be called recursively,
+			which in turn left TCP connections hanging in the
+--
+5817.	[security]	The rules for acceptance of records into the cache
+			have been tightened to prevent the possibility of
+			poisoning if forwarders send records outside
+--
+5736.	[security]	The "lame-ttl" option is now forcibly set to 0. This
+			effectively disables the lame server cache, as it could
+			previously be abused by an attacker to significantly
+--
+5689.	[security]	An assertion failure occurred when named attempted to
+			send a UDP packet that exceeded the MTU size, if
+			Response Rate Limiting (RRL) was enabled.
+--
+5616.	[security]	named crashed when a DNAME record placed in the ANSWER
+			section during DNAME chasing turned out to be the final
+			answer to a client query. (CVE-2021-25215) [GL #2540]
+--
+5615.	[security]	Insufficient IXFR checks could result in named serving a
+			zone without an SOA record at the apex, leading to a
+			RUNTIME_CHECK assertion failure when the zone was
+--
+5481.	[security]	"update-policy" rules of type "subdomain" were
+			incorrectly treated as "zonesub" rules, which allowed
+			keys used in "subdomain" rules to update names outside
+--
+5480.	[security]	When BIND 9 was compiled with native PKCS#11 support, it
+			was possible to trigger an assertion failure in code
+			determining the number of bits in the PKCS#11 RSA public
+--
+5479.	[security]	named could crash in certain query resolution scenarios
+			where QNAME minimization and forwarding were both
+			enabled. (CVE-2020-8621) [GL #1997]
+--
+5478.	[security]	It was possible to trigger an assertion failure by
+			sending a specially crafted large TCP DNS message.
+			(CVE-2020-8620) [GL #1996]
+--
+5476.	[security]	It was possible to trigger an assertion failure when
+			verifying the response to a TSIG-signed request.
+			(CVE-2020-8622) [GL #2028]
+--
+5436.	[security]	It was possible to trigger an INSIST when determining
+			whether a record would fit into a TCP message buffer.
+			(CVE-2020-8618) [GL #1850]
+--
+5434.	[security]	It was possible to trigger an INSIST in
+			lib/dns/rbtdb.c:new_reference() with a particular zone
+			content and query patterns. (CVE-2020-8619) [GL #1111]
+--
+5395.	[security]	Further limit the number of queries that can be
+			triggered from a request.  Root and TLD servers
+			are no longer exempt from max-recursion-queries.
+--
+5390.	[security]	Replaying a TSIG BADTIME response as a request could
+			trigger an assertion failure. (CVE-2020-8617)
+			[GL #1703]
+--
+5306.	[security]	Set a limit on number of simultaneous pipelined TCP
+			queries. (CVE-2019-6477) [GL #1264]
+
+--
+5299.	[security]	A flaw in DNSSEC verification when transferring
+			mirror zones could allow data to be incorrectly
+			marked valid. (CVE-2019-6475) [GL #1252]
+--
+5298.	[security]	Named could assert if a forwarder returned a
+			referral, rather than resolving the query, when QNAME
+			minimization was enabled. (CVE-2019-6476) [GL #1051]
+--
+5244.	[security]	Fixed a race condition in dns_dispatch_getnext()
+			that could cause an assertion failure if a
+			significant number of incoming packets were
+--
+5200.	[security]	tcp-clients settings could be exceeded in some cases,
+			which could lead to exhaustion of file descriptors.
+			(CVE-2018-5743) [GL #615]
+--
+5199.	[security]	In certain configurations, named could crash
+			if nxdomain-redirect was in use and a redirected
+			query resulted in an NXDOMAIN from the cache.
+--
+5141.	[security]	Zone transfer controls for writable DLZ zones were
+			not effective as the allowzonexfr method was not being
+			called for such zones. (CVE-2019-6465) [GL #790]
+--
+5118.	[security]	Named could crash if it is managing a key with
+			`managed-keys` and the authoritative zone is rolling
+			the key to an unsupported algorithm. (CVE-2018-5745)
+--
+5110.	[security]	Named leaked memory if there were multiple Key Tag
+			EDNS options present. (CVE-2018-5744) [GL #772]
+
+--
+4997.	[security]	named could crash during recursive processing
+			of DNAME records when "deny-answer-aliases" was
+			in use. (CVE-2018-5740) [GL #387]
+--
+4960.	[security]	When recursion is enabled, but the "allow-recursion"
+			and "allow-query-cache" ACLs are not specified,
+			they should be limited to local networks,
+--
+4934.	[security]	The serve-stale feature could cause an assertion failure
+			in rbtdb.c even when stale-answer-enable was false.
+			Simultaneous use of stale cache records and NSEC
+--
+4914.	[security]	A bug in zone database reference counting could lead to
+			a crash when multiple versions of a slave zone were
+			transferred from a master in close succession.
+--
+4885.	[security]	update-policy rules that otherwise ignore the name
+			field now require that it be set to "." to ensure
+			that any type list present is properly interpreted.
+--
+4858.	[security]	Addresses could be referenced after being freed
+			in resolver.c, causing an assertion failure.
+			(CVE-2017-3145) [RT #46839]
+--
+4643.	[security]	An error in TSIG handling could permit unauthorized
+			zone transfers or zone updates. (CVE-2017-3142)
+			(CVE-2017-3143) [RT #45383]
+--
+4632.	[security]	The BIND installer on Windows used an unquoted
+			service path, which can enable privilege escalation.
+			(CVE-2017-3141) [RT #45229]
+--
+4631.	[security]	Some RPZ configurations could go into an infinite
+			query loop when encountering responses with TTL=0.
+			(CVE-2017-3140) [RT #45181]
+--
+4582.	[security]	'rndc ""' could trigger a assertion failure in named.
+			(CVE-2017-3138) [RT #44924]
+
+--
+4578.	[security]	Some chaining (CNAME or DNAME) responses to upstream
+			queries could trigger assertion failures.
+			(CVE-2017-3137) [RT #44734]
+--
+4575.	[security]	DNS64 with "break-dnssec yes;" can result in an
+			assertion failure. (CVE-2017-3136) [RT #44653]
+
+--
+4557.	[security]	Combining dns64 and rpz can result in dereferencing
+			a NULL pointer (read).  (CVE-2017-3135) [RT#44434]
+
+--
+4531.	[security]	'is_zone' was not being properly updated by redirect2
+			and subsequently preserved leading to an assertion
+			failure. (CVE-2016-9778) [RT #43837]
+--
+4517.	[security]	Named could mishandle authority sections that were
+			missing RRSIGs triggering an assertion failure.
+			(CVE-2016-9444) [RT # 43632]
+--
+4510.	[security]	Named mishandled some responses where covering RRSIG
+			records are returned without the requested data
+			resulting in a assertion failure. (CVE-2016-9147)
+--
+4508.	[security]	Named incorrectly tried to cache TKEY records which
+			could trigger a assertion failure when there was
+			a class mismatch. (CVE-2016-9131) [RT #43522]
+--
+4504.	[security]	Allow the maximum number of records in a zone to
+			be specified.  This provides a control for issues
+			raised in CVE-2016-6170. [RT #42143]
+--
+4489.	[security]	It was possible to trigger assertions when processing
+			a response containing a DNAME answer. (CVE-2016-8864)
+			[RT #43465]
+--
+4467.	[security]	It was possible to trigger an assertion when
+			rendering a message. (CVE-2016-2776) [RT #43139]
+
+--
+4406.	[security]	getrrsetbyname with a non absolute name could
+			trigger an infinite recursion bug in lwresd
+			and named with lwres configured if when combined
+--
+4322.	[security]	Duplicate EDNS COOKIE options in a response could
+			trigger an assertion failure. (CVE-2016-2088)
+			[RT #41809]
+--
+4319.	[security]	Fix resolver assertion failure due to improper
+			DNAME handling when parsing fetch reply messages.
+			(CVE-2016-1286) [RT #41753]
+--
+4318.	[security]	Malformed control messages can trigger assertions
+			in named and rndc. (CVE-2016-1285) [RT #41666]
+
+--
+4286.	[security]	render_ecs errors were mishandled when printing out
+			a OPT record resulting in a assertion failure.
+			(CVE-2015-8705) [RT #41397]
+--
+4285.	[security]	Specific APL data could trigger a INSIST.
+			(CVE-2015-8704) [RT #41396]
+
+--
+4270.	[security]	Update allowed OpenSSL versions as named is
+			potentially vulnerable to CVE-2015-3193.
+
+--
+4260.	[security]	Insufficient testing when parsing a message allowed
+			records with an incorrect class to be be accepted,
+			triggering a REQUIRE failure when those records
+--
+4253.	[security]	Address fetch context reference count handling error
+			on socket error. (CVE-2015-8461)  [RT#40945]
+
+--
+4170.	[security]	An incorrect boundary check in the OPENPGPKEY
+			rdatatype could trigger an assertion failure.
+			(CVE-2015-5986) [RT #40286]
+--
+4168.	[security]	A buffer accounting error could trigger an
+			assertion failure when parsing certain malformed
+			DNSSEC keys. (CVE-2015-5722) [RT #40212]
+--
+4165.	[security]	A failure to reset a value to NULL in tkey.c could
+			result in an assertion failure. (CVE-2015-5477)
+			[RT #40046]
+--
+4138.	[security]	An uninitialized value in validator.c could result
+			in an assertion failure. (CVE-2015-4620) [RT #39795]
+
+--
+4053.	[security]	Revoking a managed trust anchor and supplying
+			an untrusted replacement could cause named
+			to crash with an assertion failure.
+--
+4006.	[security]	A flaw in delegation handling could be exploited
+			to put named into an infinite loop.  This has
+			been addressed by placing limits on the number
+--
+4003.	[security]	When geoip-directory was reconfigured during
+			named run-time, the previously loaded GeoIP
+			data could remain, potentially causing wrong
+--
+4002.	[security]	Lookups in GeoIP databases that were not
+			loaded could cause an assertion failure
+			(CVE-2014-8680). [RT #37679]
+--
+4001.	[security]	The caching of GeoIP lookups did not always
+			handle address families correctly, potentially
+			resulting in an assertion failure (CVE-2014-8680).
+--
+3861.	[security]	Missing isc_buffer_availablelength check results
+			in a REQUIRE assertion when printing out a packet
+			(CVE-2014-3859).  [RT #36078]
+--
+3837.	[security]	A NULL pointer is passed to query_prefetch resulting
+			a REQUIRE assertion failure when a fetch is actually
+			initiated (CVE-2014-3214).  [RT #35899]
+--
+3693.	[security]	memcpy was incorrectly called with overlapping
+			ranges resulting in malformed names being generated
+			on some platforms.  This could cause INSIST failures
+--
+3656.	[security]	Treat an all zero netmask as invalid when generating
+			the localnets acl. (The prior behavior could
+			allow unexpected matches when using some versions
+--
+3621.	[security]	Incorrect bounds checking on private type 'keydata'
+			can lead to a remotely triggerable REQUIRE failure
+			(CVE-2013-4854). [RT #34238]
+--
+3584.	[security]	Caching data from an incompletely signed zone could
+			trigger an assertion failure in resolver.c
+			(CVE-2013-3919). [RT #33690]
+--
+3500.	[security]	Support NAPTR regular expression validation on
+			all platforms without using libregex, which
+			can be vulnerable to memory exhaustion attack
+--
+3468.	[security]	RPZ rules to generate A records (but not AAAA records)
+			could trigger an assertion failure when used in
+			conjunction with DNS64 (CVE-2012-5689). [RT #32141]
+--
+3383.	[security]	A certain combination of records in the RBT could
+			cause named to hang while populating the additional
+			section of a response. [RT #31090]
+--
+3364.	[security]	Named could die on specially crafted record.
+			[RT #30416]
+
+--
+3346.	[security]	Bad-cache data could be used before it was
+			initialized, causing an assert. [RT #30025]
+
+--
+3331.	[security]	dns_rdataslab_fromrdataset could produce bad
+			rdataslabs. [RT #29644]
+
+--
+3218.	[security]	Cache lookup could return RRSIG data associated with
+			nonexistent records, leading to an assertion
+			failure. [RT #26590]
+--
+3126.	[security]	Using DNAME record to generate replacements caused
+			RPZ to exit with a assertion failure. [RT #24766]
+
+3125.	[security]	Using wildcard CNAME records as a replacement with
+			RPZ caused named to exit with a assertion failure.
+			[RT #24715]
+--
+3123.	[security]	Change #2912 exposed a latent flaw in
+			dns_rdataset_totext() that could cause named to
+			crash with an assertion failure. [RT #24777]
+--
+3121.	[security]	An authoritative name server sending a negative
+			response containing a very large RRset could
+			trigger an off-by-one error in the ncache code
+--
+3100.	[security]	Certain response policy zone configurations could
+			trigger an INSIST when receiving a query of type
+			RRSIG. [RT #24280]
+--
+2996.	[security]	Temporarily disable SO_ACCEPTFILTER support.
+			[RT #22589]
+
+--
+2970.	[security]	Adding a NO DATA negative cache entry failed to clear
+			any matching RRSIG records.  A subsequent lookup of
+			of NO DATA cache entry could trigger a INSIST when the
+--
+2969.	[security]	Fix acl type processing so that allow-query works
+			in options and view statements.  Also add a new
+			set of tests to verify proper functioning.
+--
+2968.	[security]	Named could fail to prove a data set was insecure
+			before marking it as insecure.  One set of conditions
+			that can trigger this occurs naturally when rolling
+--
+2963.	[security]	The allow-query acl was being applied instead of the
+			allow-query-cache acl to cache lookups. [RT #22114]
+
+--
+2831.	[security]	Do not attempt to validate or cache
+			out-of-bailiwick data returned with a secure
+			answer; it must be re-fetched from its original
+--
+2828.	[security]	Cached CNAME or DNAME RR could be returned to clients
+			without DNSSEC validation. [RT #20737]
+
+2827.	[security]	Bogus NXDOMAIN could be cached as if valid. [RT #20712]
+
+2826.	[bug]		NSEC3->NSEC transitions could fail due to a lock not
+--
+2772.	[security]	When validating, track whether pending data was from
+			the additional section or not and only return it if
+			validates as secure. [RT #20438]
+--
+2640.	[security]	A specially crafted update packet will cause named
+			to exit. [RT #20000]
+
+--
+2539.	[security]	Update the interaction between recursion, allow-query,
+			allow-query-cache and allow-recursion.  [RT #19198]
+
+--
+2522.	[security]	Handle -1 from DSA_do_verify() and EVP_VerifyFinal().
+
+2521.	[bug]		Improve epoll cross compilation support. [RT #19047]
+--
+2436.	[security]	win32: UDP client handler can be shutdown. [RT #18576]
+
+2435.	[bug]		Fixed an ACL memory leak affecting win32.
+--
+2423.	[security]	Randomize server selection on queries, so as to
+			make forgery a little more difficult.  Instead of
+			always preferring the server with the lowest RTT,
+--
+2384.	[security]	Fully randomize UDP query ports to improve
+			forgery resilience. [RT #17949, #18098]
+
+--
+2305.	[security]	inet_network() buffer overflow. CVE-2008-0122.
+
+2304.	[bug]		Check returns from all dns_rdata_tostruct() calls.
+--
+2206.	[security]	"allow-query-cache" and "allow-recursion" now
+			cross inherit from each other.
+
+--
+2203.	[security]	Query id generation was cryptographically weak.
+			[RT # 16915]
+
+2202.	[security]	The default acls for allow-query-cache and
+			allow-recursion were not being applied. [RT #16960]
+
+--
+2126.	[security]	Serialize validation of type ANY responses. [RT #16555]
+
+2125.	[bug]		dns_zone_getzeronosoattl() REQUIRE failure if DLZ
+--
+2124.	[security]	It was possible to dereference a freed fetch
+			context. [RT #16584]
+
+--
+2112.	[security]	Warn if weak RSA exponent is used. [RT #16460]
+
+2111.	[bug]		Fix a number of errors reported by Coverity.
+--
+2089.	[security]	Raise the minimum safe OpenSSL versions to
+			OpenSSL 0.9.7l and OpenSSL 0.9.8d.  Versions
+			prior to these have known security flaws which
+--
+2088.	[security]	Change the default RSA exponent from 3 to 65537.
+			[RT #16391]
+
+--
+2066.	[security]	Handle SIG queries gracefully. [RT #16300]
+
+2065.	[bug]		libbind: probe for HPUX prototypes for
+--
+2006.	[security]	Allow-query-cache and allow-recursion now default
+			to the built in acls "localnets" and "localhost".
+
+--
+1951.	[security]	Drop queries from particular well known ports.
+			Don't return FORMERR to queries from particular
+			well known ports.  [RT #15636]
+--
+1494.	[security]	Turn on RSA BLINDING as a precaution.
+
+1493.	[placeholder]
+--
+1359.	[security]	Support patches OpenSSL libraries.
+			http://www.cert.org/advisories/CA-2002-23.html
+
+--
+1349.	[security]	Minimum OpenSSL version now 0.9.6e (was 0.9.5a).
+			http://www.cert.org/advisories/CA-2002-23.html
+
